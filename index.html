@@ -13,6 +13,21 @@
             </p>
 
             <form action="https://formspree.io/f/xeqvnynl" method="POST">
+                <h2>Basic Form</h2>
+
+                <label class="number-input" for="first-number">
+                    Your First Number
+                    <input id="first-number" type="number" name="firstNumber">
+                </label>
+
+                <label class="number-input" for="second-number">
+                    Your Second Number
+                    <input id="second-number" type="number" name="secondNumber">
+                </label>
+
+                <p id="output-element"></p>
+                <br>
+
                 <label class="short-input" for="nameInput">
                     Name<br>
                     <input id="nameInput" type="text" name="nameInput">
@@ -39,15 +54,84 @@
                 </label>
 
                 <button type="submit">Send message</button>
+                <a href="second-page.html">Go to second page</a>
+            </form>
+        </section>
+        
+        <section>
+            <h2>AJAX Form</h2>
+
+            <form id="second-form" action="https://formspree.io/f/xeqvnynl" method="POST">
+                <label for="second-email">Email:</label>
+                <input type="email" name="email" id="second-email" />
+
+                <label for="second-message">Message:</label>
+                <input type="text" name="message" id="second-message" />
+
+                <button id="second-form-button">Submit</button>
+                <p id="second-form-status"></p>
             </form>
         </section>
 
-        <section>
+        <script>
+            var firstNumber;
+            var secondNumber;
 
-        </section>
+            var outputElement = document.getElementById('output-element');
 
-        <footer>
+            function showSumOfNumbers() {
+                if (firstNumber && secondNumber) {
+                    var sumOfNumbers = firstNumber + secondNumber;
+                    var outputMessage = `The sum of the two numbers is ${sumOfNumbers}`;
 
-        </footer>
+                    console.log(outputMessage);
+                    outputElement.innerText = outputMessage;
+                } else {
+                    var outputMessage = 'Enter first and second number to see the sum';
+
+                    console.log(outputMessage);
+                    outputElement.innerText = outputMessage;
+                }
+            }
+
+            var firstNumberInput = document.getElementById('first-number');
+            firstNumberInput.addEventListener('input', function retrieveFirstNumber(event) {
+                firstNumber = parseInt(event.target.value);
+                showSumOfNumbers();
+            });
+
+            var secondNumberInput = document.getElementById('second-number');
+            secondNumberInput.addEventListener('input', function retrieveSecondNumber(event) {
+                secondNumber = parseInt(event.target.value);
+                showSumOfNumbers();
+            });
+        </script>
+
+        <script>
+            var form = document.getElementById("second-form");
+            
+            function handleSubmit(event) {
+                event.preventDefault();
+
+                var status = document.getElementById("second-form-status");
+
+                var requestData = {
+                    method: form.method,
+                    body: new FormData(event.target),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                };
+
+                fetch(event.target.action, requestData).then(function (response) {
+                    status.innerHTML = "Thanks for your submission!";
+                    form.reset()
+                }).catch(function (error) {
+                    status.innerHTML = "Oops! There was a problem submitting your form"
+                });
+            }
+
+            form.addEventListener("submit", handleSubmit)
+        </script>
     </body>
 </html>
