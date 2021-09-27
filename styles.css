@@ -1,0 +1,7 @@
+.short-input {
+    color: red;
+}
+
+label, button {
+    display: block;
+}
